@@ -1,5 +1,8 @@
 python streaming word count
 
+cat wc_src.txt | python wc_m.py | sort | python wc_r.py
+cat wc_src.txt | ./wc_m.py | sort | ./wc_r.py
+
 yarn jar /usr/hdp/2.4.3.0-227/hadoop-mapreduce/hadoop-streaming.jar \
 -Dmapreduce.job.name="lhl-py-strm-wc-01" \
 -input /user/lhl13/wordcount \
