@@ -5,7 +5,7 @@ def readFileAsSet(filePath = "myfile") :
     try :
         file = open(filePath)
         for line in file :
-            mySet.add(line)
+            mySet.add(line.strip())
     except Exception, e :
         print e
     finally :
@@ -18,7 +18,7 @@ def readFileAsList(filePath = "myfile") :
     try :
         file = open(filePath)
         for line in file :
-            lst.append(line)
+            lst.append(line.strip())
     except Exception, e :
         print e
     finally :
