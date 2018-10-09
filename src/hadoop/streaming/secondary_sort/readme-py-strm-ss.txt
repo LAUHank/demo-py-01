@@ -1,0 +1,35 @@
+# python streaming secondary sort
+
+# 本地测试
+cat ss_src.txt | ./ss_m.py | sort -k1,1 -k2n,2 | ./ss_r.py
+hdfs dfs -copyFromLocal ss_src.txt /user/liuhongliang
+hdfs dfs -cat /user/liuhongliang/ss_src.txt | ./ss_m.py | sort -k1,1 -k2n,2 | ./ss_r.py
+
+# 集群测试
+yarn jar /usr/hdp/2.5.3.0-37/hadoop-mapreduce/hadoop-streaming.jar \
+-Dmapreduce.job.name="py-strm-secondary-sort" \
+-Dstream.map.output.field.separator=\t \
+-Dstream.num.map.output.key.fields=2 \
+-Dmapred.output.key.comparator.class=\
+org.apache.hadoop.mapred.lib.KeyFieldBasedComparator \
+-Dmapred.text.key.comparator.options="-k1r,1 -k2nr,2" \
+-Dmapred.text.key.partitioner.options="-k1,1" \
+-partitioner org.apache.hadoop.mapred.lib.KeyFieldBasedPartitioner \
+-input /user/liuhongliang/ss_src.txt \
+-output /user/liuhongliang/pystrm_ss_out_06 \
+-mapper "./ss_m.py" \
+-reducer "./ss_r.py" \
+-file ss_m.py \
+-file ss_r.py 
+
+# 验证结果
+hdfs dfs -cat /user/liuhongliang/pystrm_ss_out_06/*
+
+# 参数说明
+-Dstream.map.output.field.separator=\t key中字段的分隔符
+-Dstream.num.map.output.key.fields=2 key包含几个字段（这里是2个）
+-Dnum.key.fields.for.partition=1 使用key中前几个字段进行分区（这里是前1个）
+-Dmapred.text.key.partitioner.options="-k1,1" 使用key中指定的第几个字段进行分区（这里是第1个），比上面的参数更灵活，建议使用此参数
+-Dmapred.output.key.comparator.class=org.apache.hadoop.mapred.lib.KeyFieldBasedComparator 排序类，相当于sort命令
+-Dmapred.text.key.comparator.options="-k1,1 -k2nr,2" 指定排序规则，相当于sort命令的参数（这里是按第1字段升序第2字段数值降序）
+-partitioner org.apache.hadoop.mapred.lib.KeyFieldBasedPartitioner 分区类
