@@ -24,13 +24,29 @@ class Dad(Person) :
         print name + ' eat food and meat'
 
 class Student :
-    def __init__(self, id = 1, name = 'lhl13', age = 18) :
+    def __init__(self, id = 0, name = '', age = 0) :
         self.id = id
         self.name = name
         self.age = age
     def __str__(self) :
         result = 'Student {"id" : '+str(self.id)+', "name" : '+self.name+', "age" : '+str(self.age)+'}'
         return result
+
+class CStudent(Student) :
+    pass
+
+class BadStudent(Student) :
+    def __str__(self) :
+        result = 'BadStudent'
+        return result
+
+class GoodStudent(Student) :
+    def __init__(self, id=0, name='刘十三', age=0, salary=0.0) :
+        super(Student, self).__init__()
+        self.id = id
+        self.name = name
+        self.age = age
+        self.salary = salary
 
 def main() :
     p = Person()
