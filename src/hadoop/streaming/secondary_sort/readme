@@ -33,3 +33,21 @@ hdfs dfs -cat /user/liuhongliang/pystrm_ss_out_06/*
 -Dmapred.output.key.comparator.class=org.apache.hadoop.mapred.lib.KeyFieldBasedComparator 排序类，相当于sort命令
 -Dmapred.text.key.comparator.options="-k1,1 -k2nr,2" 指定排序规则，相当于sort命令的参数（这里是按第1字段升序第2字段数值降序）
 -partitioner org.apache.hadoop.mapred.lib.KeyFieldBasedPartitioner 分区类
+
+yarn jar /usr/hdp/2.5.3.0-37/hadoop-mapreduce/hadoop-streaming.jar \
+-Dmapreduce.job.name="py-strm-secondary-sort" \
+-Dstream.map.output.field.separator=\t \
+-Dstream.num.map.output.key.fields=2 \
+-Dmapred.output.key.comparator.class=\
+org.apache.hadoop.mapred.lib.KeyFieldBasedComparator \
+-Dmapred.text.key.comparator.options="-k1r,1 -k2nr,2" \
+-Dmapred.text.key.partitioner.options="-k1,1" \
+-partitioner org.apache.hadoop.mapred.lib.KeyFieldBasedPartitioner \
+-input /user/liuhongliang/ss_src.txt \
+-output /user/liuhongliang/pystrm_ss_out_07 \
+-mapper "./ss_m.py" \
+-reducer "./ss_r_2.py" \
+-file ss_m.py \
+-file ss_r_2.py 
+
+hdfs dfs -cat /user/liuhongliang/pystrm_ss_out_07/*
