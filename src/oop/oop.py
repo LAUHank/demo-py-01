@@ -23,6 +23,15 @@ class Dad(Person) :
     def eat(self, name = 'dad') :
         print name + ' eat food and meat'
 
+class Student :
+    def __init__(self, id = 1, name = 'lhl13', age = 18) :
+        self.id = id
+        self.name = name
+        self.age = age
+    def __str__(self) :
+        result = 'Student {"id" : '+str(self.id)+', "name" : '+self.name+', "age" : '+str(self.age)+'}'
+        return result
+
 def main() :
     p = Person()
     dad = Dad()
