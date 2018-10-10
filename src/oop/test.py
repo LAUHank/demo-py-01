@@ -7,11 +7,11 @@ def test() :
     stu = oop.Student(name='刘十三',age=25)
     print stu
     gstu = oop.GoodStudent(id=1, name='LAUHank', age=30, salary=1000.23)
-    print gstu
+    print 'GoodStudent='+str(gstu)
     cstu = oop.CStudent()
-    print cstu
+    print 'CStudent='+str(cstu)
     badStudent = oop.BadStudent()
-    print badStudent
+    print 'BadStudent='+str(badStudent)
 
 def main() :
     test()
