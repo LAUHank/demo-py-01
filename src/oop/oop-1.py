@@ -24,6 +24,16 @@ class Dad :
     def __str__(self) :
         return str((self.name, self.car, self.money))
 
+    @staticmethod
+    def sayHello() :
+        print 'Hello'
+    # sayHello = staticmethod(sayHello)
+
+    @classmethod
+    def sayHi(cls):
+        print 'hi, ', cls
+    # sayHi = classmethod(sayHi)
+
 class Son(Dad) :
     pass
 
@@ -73,6 +83,13 @@ def testDad(d) :
     if isinstance(d, ThirdSon) :
         print d.tank
         d.driveTank()
+def testMthd() :
+    d = Dad(name='lhl')
+    Dad.sayHello()
+    d.sayHi()
+    d.sayHello()
+    Dad.sayHi()
 
 if __name__ == '__main__' :
-    test()
+    # test()
+    testMthd()
