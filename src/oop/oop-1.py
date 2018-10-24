@@ -1,23 +1,25 @@
 #!/usr/bin/env python
 #-*- coding:utf-8 -*-
+
+'''module note'''
 __metaclass__ = type
-# 或者每个类都要显式地继承object如 class Dad(object) :
-# 推荐使用 __metaclass__ = type 
-# 在Python3中所有类默认都是新式类，不用再使用上述两种方式来显式声明为新式类了
 class Dad :
+# class Dad(object) :
+    '''class Dad note'''
     def __init__(self, name='', car=0, money=0.0) :
         self.name = name
         self.car = car
         self.money = money
 
     def drive(self) :
+        '''method drive note'''
         print '老子开车上高速'
 
     def buy(self) :
         print '%s_%s_%s' % ('老子有', self.money, 'RMB')
 
     def __repr__(self) :
-        return str((self.name, self.car, self.money)) + '_repr'
+        return self.__str__() + '_repr'
 
     def __str__(self) :
         return str((self.name, self.car, self.money))
@@ -31,31 +33,44 @@ class FirstSon(Dad) :
 
 class SecondSon(Dad) :
     def __init__(self, tank='', name='', car=0, money=0.0) :
-        super(Dad, self).__init__()
+        super(SecondSon, self).__init__(name, car, money)
         self.tank = tank
-        self.name = name
-        self.car = car
-        self.money = money
 
     def driveTank(self) :
         print '开坦克_' + str(self.tank)
+
+class ThirdSon(Dad) :
+    def __init__(self, tank='', name='', car=0, money=0.0) :
+        super(ThirdSon, self).__init__(name, car, money)
+        self.tank = tank
+
+    def driveTank(self) :
+        super(ThirdSon, self).drive()
+        print '3son开坦克_' + str(self.tank)
+
+    def __str__(self) :
+        return super(ThirdSon, self).__str__() + ', ' +str(self.tank)
 
 def test() :
     d = Dad(name='lhl')
     d = Son(name='James', car=23, money=1000.0) 
     d = FirstSon(name='Jack', car=2, money=199.0)
     d = SecondSon(tank='M60', name='Bush', car=3, money=99.0)
+    d = ThirdSon(tank='M60E3', name='Trump', car=30, money=9.0)
     testDad(d)
 
 def testDad(d) :
-    print d # 即下面str的逻辑，这里面有多态，调用方法时，如果本类没定义则沿继承链向上找
-    print str(d) # 会优先使用这个对象的__str__方法，如果没有则使用__repr__方法
-    print repr(d) # 只会使用对象的__repr__方法
+    print d
+    print str(d)
+    print repr(d)
     print '================'
     print d.name
     d.drive()
     d.buy()
     if isinstance(d, SecondSon) :
+        print d.tank
+        d.driveTank()
+    if isinstance(d, ThirdSon) :
         print d.tank
         d.driveTank()
 
