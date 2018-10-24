@@ -1,9 +1,6 @@
 #!/usr/bin/env python
 #-*- coding:utf-8 -*-
-__metaclass__ = type
-# 或者每个类都要显式地继承object如 class Dad(object) :
-# 推荐使用 __metaclass__ = type 
-# 在Python3中所有类默认都是新式类，不用再使用上述两种方式来显式声明为新式类了
+
 class Dad :
     def __init__(self, name='', car=0, money=0.0) :
         self.name = name
@@ -31,7 +28,7 @@ class FirstSon(Dad) :
 
 class SecondSon(Dad) :
     def __init__(self, tank='', name='', car=0, money=0.0) :
-        super(Dad, self).__init__()
+        Dad.__init__(self)
         self.tank = tank
         self.name = name
         self.car = car
@@ -48,9 +45,9 @@ def test() :
     testDad(d)
 
 def testDad(d) :
-    print d # 即下面str的逻辑，这里面有多态，调用方法时，如果本类没定义则沿继承链向上找
-    print str(d) # 会优先使用这个对象的__str__方法，如果没有则使用__repr__方法
-    print repr(d) # 只会使用对象的__repr__方法
+    print d
+    print str(d)
+    print repr(d)
     print '================'
     print d.name
     d.drive()
