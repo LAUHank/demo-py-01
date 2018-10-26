@@ -17,12 +17,12 @@ def readFile(filePath = "a.txt", fileMode = "r") :
         if file : file.close()
     print "%s_%s_done" % (filePath, fileMode)
 
-def writeFile(filePath = "a.txt", fileMode = "a", ctnt = '写文件测试') :
+def writeFile(filePath = "a.txt", fileMode = "a", ctnt = '写文件测试', eol = os.linesep) :
     try :
         file = open(filePath, fileMode)
         file.write(ctnt)
         file.write(str(random.random()))
-        file.write(os.linesep)
+        file.write(eol)
     except Exception, e :
         print e
     finally :
@@ -30,8 +30,10 @@ def writeFile(filePath = "a.txt", fileMode = "a", ctnt = '写文件测试') :
     print "%s_%s_done" % (filePath, fileMode)    
 
 def test() :
-    # writeFile(filePath='/root/Downloads/io', fileMode='a')
-    readFile(filePath='/root/Downloads/io')
+    filePath = 'my_io_file.txt' # '/root/Downloads/io'
+    # 无论是读还是写, Python会自动将\n转换成相应OS的换行符
+    writeFile(filePath, fileMode='a', eol='\n') 
+    # readFile(filePath)
 
 if __name__ == '__main__':
     test()
